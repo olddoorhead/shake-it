@@ -1,23 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Shake the Matlhowa!</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Shake the Leg Rattle</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background-color: #FFFFFF;
+      color: #000000;
+      margin: 0;
+      padding: 20px;
+    }
+    .header {
+      text-align: center;
+    }
+    .main-image {
+      width: 100%;
+      max-width: 600px;
+      display: block;
+      margin: 0 auto;
+    }
+    .audio-player {
+      display: block;
+      margin: 20px auto;
+    }
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Shake the Matlhowa!</h1>
-    <p>Try shaking your phone to hear the sound of a leg rattle used in dance!</p>
-    <div class="rattle-box">
-      <img id="rattle" src="rattle.png" alt="Leg Rattle" />
-    </div>
-    <audio id="rattleSound" src="rattle-sound.mp3"></audio>
-    <footer>
-      <p>Part of the Horniman Handling Collection | For families</p>
-    </footer>
+  <div class="header">
+    <h1>Shake the Leg Rattle</h1>
+    <img src="leg-rattle.jpg" alt="Leg Rattle" class="main-image">
+    <audio controls class="audio-player">
+      <source src="leg-rattle-sound.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
   </div>
-  <script src="script.js"></script>
+  <div class="content">
+    <p>Explore the rhythmic sounds of the leg rattle, an essential instrument in traditional dances. Shake your device to experience the authentic sound!</p>
+    <!-- Additional content and images -->
+  </div>
 </body>
 </html>
