@@ -7,51 +7,77 @@
   <style>
     body {
       font-family: 'Open Sans', sans-serif;
-      background-color: #fff;
-      color: #000;
+      background-color: #ffffff;
+      color: #222;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
       text-align: center;
-      padding: 40px;
     }
-
-    h1 {
-      font-size: 2em;
-    }
-
     img {
-      width: 200px;
-      margin: 20px auto;
+      width: 100%;
+      max-width: 600px;
+      height: auto;
       display: block;
+      margin: 0 auto 20px auto;
+      border-radius: 8px;
     }
-
-    button {
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      color: #555;
+    }
+    .button-group {
+      margin-top: 30px;
+    }
+    button, a.button-link {
       font-size: 1.2rem;
       background-color: #f9a825;
       color: black;
       border: none;
-      border-radius: 12px;
-      padding: 14px 22px;
-      margin: 20px;
+      border-radius: 10px;
+      padding: 14px 24px;
+      margin: 10px;
+      text-decoration: none;
+      display: inline-block;
       cursor: pointer;
       box-shadow: 2px 2px 10px rgba(0,0,0,0.15);
+      transition: background-color 0.3s;
     }
-
-    button:hover {
+    button:hover, a.button-link:hover {
       background-color: #f57f17;
     }
   </style>
 </head>
 <body>
-  <h1>Shake the Leg Rattle</h1>
-  <img src="Matlhowa.jpg" alt="Leg Rattle">
 
-  <p>Welcome! Choose an activity:</p>
+  <div class="container">
+    <img src="Matlhowa.jpg" alt="Leg Rattle - Matlhowa">
 
-  <button onclick="document.getElementById('danceAudio').play()">▶️ Listen to the Dance</button>
-  <audio id="danceAudio" src="dance.mp3"></audio>
+    <h1>Shake the Leg Rattle</h1>
 
-  <br>
-  <a href="game.html">
-    <button>🎮 Try It Yourself!</button>
-  </a>
+    <p>
+      Explore the sound of the Matlhowa, a traditional leg rattle used in ceremonies and dances.
+      Listen to a performance or try shaking your device to create the rhythm yourself!
+    </p>
+
+    <div class="button-group">
+      <button onclick="document.getElementById('danceAudio').play()">▶️ Listen to the Dance</button>
+      <a href="game.html" class="button-link">🎮 Try It Yourself!</a>
+    </div>
+
+    <audio id="danceAudio" src="dance.mp3"></audio>
+  </div>
+
 </body>
 </html>
+
