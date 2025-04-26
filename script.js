@@ -6,6 +6,7 @@
       DeviceMotionEvent.requestPermission()
         .then(response => {
           if (response === 'granted') {
+            console.log('Motion permission granted ✅');
             startMotionListener();
             document.getElementById('enableMotion').style.display = 'none'; // Hide button after permission
           } else {
