@@ -62,47 +62,50 @@ footer {
   border-radius: 8px;
 }
 
-.music-preview {
-  background: #fff;
-  padding: 40px 20px;
+.music-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  max-width: 400px;
   margin: 40px auto;
-  max-width: 800px;
-  text-align: center;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  border-radius: 8px;
+  text-align: center;
 }
 
-.music-preview h2 {
-  font-size: 1.8rem;
-  margin-bottom: 20px;
-}
-
-.music-preview p {
-  font-size: 1rem;
-  margin-bottom: 20px;
-  color: #555;
-}
-
-.music-preview-image {
+.music-card-image {
   width: 100%;
-  max-width: 600px;
-  margin-bottom: 20px;
-  border-radius: 8px;
+  height: auto;
 }
 
-.preview-button {
-  display: inline-block;
-  padding: 12px 24px;
-  background: #f9a825;
-  color: #222;
+.music-card-content {
+  padding: 20px;
+}
+
+.music-card-content h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #2e2e2e;
+}
+
+.music-card-content p {
   font-size: 1rem;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.music-card-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #f9a825;
+  color: black;
+  font-weight: bold;
   border-radius: 30px;
   text-decoration: none;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-  transition: background 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
-.preview-button:hover {
-  background: #f57f17;
+.music-card-button:hover {
+  background-color: #f57f17;
 }
 
