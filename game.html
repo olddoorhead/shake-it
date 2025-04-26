@@ -104,7 +104,7 @@
         const acceleration = Math.sqrt(x * x + y * y + z * z);
 
         const now = Date.now();
-        if (acceleration > 12 && now - lastShakeTime > 500) { // EVEN MORE sensitive
+        if (acceleration > 14 && now - lastShakeTime > 500) { // EVEN MORE sensitive
           lastShakeTime = now;
 
           const sound = document.getElementById("rattleSound");
