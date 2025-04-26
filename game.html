@@ -52,7 +52,7 @@
 <body>
 
   <h1>🎶 Shake Your Device!</h1>
-  <img id="rattleImg" src="matlhowa.jpg" alt="Leg Rattle">
+  <img id="rattleImg" src="Matlhowa.jpg" alt="Leg Rattle">
 
   <button id="enableMotion">🛡️ Enable Motion Access</button>
   <button id="playTest">🔊 Tap to Unlock Sound</button>
@@ -61,7 +61,7 @@
   <div id="statusMessage">✅ Motion access granted! Start shaking!</div>
   <div id="shakeMessage">🎉 Shake detected!</div>
 
-  <audio id="rattleSound" src="rattle.mp3"></audio>
+  <audio id="rattleSound" src="audio.mp3"></audio>
 
   <a href="index.html">⬅️ Back to Menu</a>
 
@@ -104,7 +104,7 @@
         const acceleration = Math.sqrt(x * x + y * y + z * z);
 
         const now = Date.now();
-        if (acceleration > 3 && now - lastShakeTime > 500) { // EVEN MORE sensitive
+        if (acceleration > 6 && now - lastShakeTime > 500) { // EVEN MORE sensitive
           lastShakeTime = now;
 
           const sound = document.getElementById("rattleSound");
