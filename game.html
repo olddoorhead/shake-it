@@ -93,17 +93,19 @@
       window.addEventListener("devicemotion", (event) => {
         const { x, y, z } = event.accelerationIncludingGravity;
         const acceleration = Math.sqrt(x * x + y * y + z * z);
-
+    
         const now = Date.now();
-        if (acceleration > 12 && now - lastShakeTime > 800) {  // Made it more sensitive (was 15, now 12)
+        if (acceleration > 6 && now - lastShakeTime > 500) {  // Much easier to trigger
           lastShakeTime = now;
-
+    
           const sound = document.getElementById("rattleSound");
           const image = document.getElementById("rattleImg");
-
+    
           sound.currentTime = 0;
-          sound.play();
-
+          sound.play().catch(error => {
+            console.log('Audio play error:', error);
+          });
+    
           image.style.transform = "rotate(10deg)";
           setTimeout(() => image.style.transform = "rotate(-10deg)", 100);
           setTimeout(() => image.style.transform = "rotate(0deg)", 200);
