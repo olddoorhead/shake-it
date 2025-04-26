@@ -12,20 +12,29 @@
       text-align: center;
       padding: 40px;
     }
-
     h1 {
       font-size: 2em;
     }
-
     img {
       width: 180px;
       transition: transform 0.1s ease;
+      margin: 20px 0;
     }
-
+    button {
+      font-size: 1.1rem;
+      background-color: #43a047;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 24px;
+      margin: 20px;
+      cursor: pointer;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+    }
     p {
       font-size: 1rem;
+      color: #555;
     }
-
     a {
       display: block;
       margin-top: 30px;
@@ -35,37 +44,62 @@
   </style>
 </head>
 <body>
-  <h1>🎶 Shake Your Device!</h1>
-  <img id="rattleImg" src="Matlhowa.jpg" alt="Leg Rattle">
 
-  <button id="enableMotion">
+  <h1>🎶 Shake Your Device!</h1>
+  <img id="rattleImg" src="matlhowa.jpg" alt="Leg Rattle">
+
+  <!-- NEW BUTTON -->
+  <button id="enableMotion">🛡️ Enable Motion Access</button>
 
   <p>Shake your phone to hear the rattle sound!</p>
-  <audio id="rattleSound" src="Audio.mp3"></audio>
+  <audio id="rattleSound" src="rattle.mp3"></audio>
 
   <a href="index.html">⬅️ Back to Menu</a>
 
   <script>
     let lastShakeTime = 0;
-    window.addEventListener("devicemotion", (event) => {
-      const { x, y, z } = event.accelerationIncludingGravity;
-      const acceleration = Math.sqrt(x * x + y * y + z * z);
 
-      const now = Date.now();
-      if (acceleration > 15 && now - lastShakeTime > 800) {
-        lastShakeTime = now;
-
-        const sound = document.getElementById("rattleSound");
-        const image = document.getElementById("rattleImg");
-
-        sound.currentTime = 0;
-        sound.play();
-
-        image.style.transform = "rotate(10deg)";
-        setTimeout(() => image.style.transform = "rotate(-10deg)", 100);
-        setTimeout(() => image.style.transform = "rotate(0deg)", 200);
+    document.getElementById('enableMotion').addEventListener('click', function() {
+      if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
+        DeviceMotionEvent.requestPermission()
+          .then(response => {
+            if (response === 'granted') {
+              startMotionListener();
+              document.getElementById('enableMotion').style.display = 'none'; // Hide button after permission
+            } else {
+              alert('Permission denied for motion access.');
+            }
+          })
+          .catch(console.error);
+      } else {
+        // For Android and older iPhones
+        startMotionListener();
+        document.getElementById('enableMotion').style.display = 'none';
       }
     });
+
+    function startMotionListener() {
+      window.addEventListener("devicemotion", (event) => {
+        const { x, y, z } = event.accelerationIncludingGravity;
+        const acceleration = Math.sqrt(x * x + y * y + z * z);
+
+        const now = Date.now();
+        if (acceleration > 15 && now - lastShakeTime > 800) {
+          lastShakeTime = now;
+
+          const sound = document.getElementById("rattleSound");
+          const image = document.getElementById("rattleImg");
+
+          sound.currentTime = 0;
+          sound.play();
+
+          image.style.transform = "rotate(10deg)";
+          setTimeout(() => image.style.transform = "rotate(-10deg)", 100);
+          setTimeout(() => image.style.transform = "rotate(0deg)", 200);
+        }
+      });
+    }
   </script>
+
 </body>
 </html>
