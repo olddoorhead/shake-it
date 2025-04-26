@@ -88,7 +88,7 @@
     <div id="statusMessage" class="message">✅ Motion access granted! Start shaking!</div>
     <div id="shakeMessage" class="message">🎉 Shake detected!</div>
 
-    <audio id="rattleSound" src="rattle.mp3"></audio>
+    <audio id="rattleSound" src="audio.mp3"></audio>
 
     <a href="index.html">⬅️ Back to Menu</a>
   </div>
@@ -131,7 +131,7 @@
         const acceleration = Math.sqrt(x * x + y * y + z * z);
 
         const now = Date.now();
-        if (acceleration > 4 && now - lastShakeTime > 500) {
+        if (acceleration > 14 && now - lastShakeTime > 500) {
           lastShakeTime = now;
 
           const sound = document.getElementById("rattleSound");
