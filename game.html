@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Shake the Leg Rattle!</title>
+  <title>Shake the Rattle!</title>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap" rel="stylesheet">
   <style>
     body {
@@ -12,20 +12,22 @@
       margin: 0;
       padding: 0;
     }
-    .banner {
-      width: 100%;
-      height: 250px;
-      background: url('matlhowa.png') center/cover no-repeat;
-      margin-bottom: 30px;
-    }
     .container {
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
-      padding: 0 20px 40px 20px;
+      padding: 40px 20px;
       text-align: center;
     }
+    img {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      margin-bottom: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0px 0px rgba(0,0,0,0.1);
+    }
     h1 {
-      font-size: 2rem;
+      font-size: 2.2rem;
       font-weight: 600;
       margin-bottom: 20px;
       color: #2e2e2e;
@@ -33,8 +35,8 @@
     p {
       font-size: 1.1rem;
       line-height: 1.6;
-      margin-bottom: 30px;
       color: #555;
+      margin-bottom: 30px;
     }
     button {
       font-size: 1rem;
@@ -67,31 +69,21 @@
     a:hover {
       text-decoration: underline;
     }
-    #shakeMessage {
-      animation: fadeInOut 1s ease forwards;
-    }
-    @keyframes fadeInOut {
-      0% { opacity: 0; }
-      20% { opacity: 1; }
-      80% { opacity: 1; }
-      100% { opacity: 0; }
-    }
   </style>
 </head>
 <body>
 
-  <div class="banner"></div>
-
   <div class="container">
+    <img id="rattleImg" src="matlhowa.jpg" alt="Leg Rattle">
+
     <h1>Shake the Leg Rattle</h1>
 
     <p>
       Tap below to unlock sound and enable motion access. Then gently shake your device to hear the traditional rhythm of the Matlhowa!
     </p>
 
-    <button id="playTest">🔊 Unlock Sound</button>
-    </div>
-    <button id="enableMotion">🛡️ Enable Motion Access</button>
+    <button id="playTest">🔊 Tap to Unlock Sound</button><br>
+    <button id="enableMotion"> Enable Motion Access</button>
 
     <div id="statusMessage" class="message">✅ Motion access granted! Start shaking!</div>
     <div id="shakeMessage" class="message">🎉 Shake detected!</div>
@@ -143,19 +135,28 @@
           lastShakeTime = now;
 
           const sound = document.getElementById("rattleSound");
+          const image = document.getElementById("rattleImg");
+
           sound.currentTime = 0;
           sound.play().catch(error => {
             console.log('Audio play error:', error);
           });
 
-          // Show shake detected animation
+          // Simulated "vibration" visual
+          image.style.transition = "transform 0.1s";
+          image.style.transform = "scale(1.05)";
+          setTimeout(() => {
+            image.style.transform = "scale(1)";
+          }, 200);
+
+          // Show shake detected
           const shakeMessage = document.getElementById('shakeMessage');
           shakeMessage.style.display = 'block';
           setTimeout(() => {
             shakeMessage.style.display = 'none';
           }, 1000);
 
-          // Vibrate if supported
+          // Vibrate if possible
           if (navigator.vibrate) {
             navigator.vibrate([100, 50, 100]);
           }
