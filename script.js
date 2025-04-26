@@ -1,25 +1,44 @@
-let lastShakeTime = 0;
+<script>
+  let lastShakeTime = 0;
 
-window.addEventListener("devicemotion", (event) => {
-  const { x, y, z } = event.accelerationIncludingGravity;
-  const acceleration = Math.sqrt(x * x + y * y + z * z);
+  document.getElementById('enableMotion').addEventListener('click', function() {
+    if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
+      DeviceMotionEvent.requestPermission()
+        .then(response => {
+          if (response === 'granted') {
+            startMotionListener();
+            document.getElementById('enableMotion').style.display = 'none'; // Hide button after permission
+          } else {
+            alert('Permission denied for motion access.');
+          }
+        })
+        .catch(console.error);
+    } else {
+      // For Android and older iPhones that don't require permission
+      startMotionListener();
+      document.getElementById('enableMotion').style.display = 'none';
+    }
+  });
 
-  const currentTime = new Date().getTime();
-  if (acceleration > 15 && currentTime - lastShakeTime > 800) {
-    lastShakeTime = currentTime;
+  function startMotionListener() {
+    window.addEventListener("devicemotion", (event) => {
+      const { x, y, z } = event.accelerationIncludingGravity;
+      const acceleration = Math.sqrt(x * x + y * y + z * z);
 
-    const sound = document.getElementById("rattleSound");
-    const rattleImg = document.getElementById("rattle");
+      const now = Date.now();
+      if (acceleration > 15 && now - lastShakeTime > 800) {
+        lastShakeTime = now;
 
-    sound.currentTime = 0;
-    sound.play();
+        const sound = document.getElementById("rattleSound");
+        const image = document.getElementById("rattleImg");
 
-    rattleImg.style.transform = "rotate(15deg)";
-    setTimeout(() => {
-      rattleImg.style.transform = "rotate(-15deg)";
-    }, 100);
-    setTimeout(() => {
-      rattleImg.style.transform = "rotate(0deg)";
-    }, 200);
+        sound.currentTime = 0;
+        sound.play();
+
+        image.style.transform = "rotate(10deg)";
+        setTimeout(() => image.style.transform = "rotate(-10deg)", 100);
+        setTimeout(() => image.style.transform = "rotate(0deg)", 200);
+      }
+    });
   }
-});
+</script>
