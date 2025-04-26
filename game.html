@@ -41,6 +41,12 @@
       color: #1e88e5;
       text-decoration: none;
     }
+    #statusMessage {
+      margin-top: 15px;
+      font-size: 1rem;
+      color: #388e3c;
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -48,10 +54,12 @@
   <h1>🎶 Shake Your Device!</h1>
   <img id="rattleImg" src="matlhowa.jpg" alt="Leg Rattle">
 
-  <!-- NEW BUTTON -->
+  <!-- Motion Access Button -->
   <button id="enableMotion">🛡️ Enable Motion Access</button>
 
   <p>Shake your phone to hear the rattle sound!</p>
+  <div id="statusMessage">✅ Motion access granted! Start shaking!</div>
+
   <audio id="rattleSound" src="rattle.mp3"></audio>
 
   <a href="index.html">⬅️ Back to Menu</a>
@@ -61,20 +69,23 @@
 
     document.getElementById('enableMotion').addEventListener('click', function() {
       if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
+        // iOS 13+ style permission
         DeviceMotionEvent.requestPermission()
           .then(response => {
             if (response === 'granted') {
               startMotionListener();
-              document.getElementById('enableMotion').style.display = 'none'; // Hide button after permission
+              document.getElementById('enableMotion').style.display = 'none';
+              document.getElementById('statusMessage').style.display = 'block';
             } else {
               alert('Permission denied for motion access.');
             }
           })
           .catch(console.error);
       } else {
-        // For Android and older iPhones
+        // Non iOS devices (Android, older iPhones)
         startMotionListener();
         document.getElementById('enableMotion').style.display = 'none';
+        document.getElementById('statusMessage').style.display = 'block';
       }
     });
 
@@ -84,7 +95,7 @@
         const acceleration = Math.sqrt(x * x + y * y + z * z);
 
         const now = Date.now();
-        if (acceleration > 15 && now - lastShakeTime > 800) {
+        if (acceleration > 12 && now - lastShakeTime > 800) {  // Made it more sensitive (was 15, now 12)
           lastShakeTime = now;
 
           const sound = document.getElementById("rattleSound");
