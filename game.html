@@ -27,7 +27,7 @@
       border: none;
       border-radius: 10px;
       padding: 12px 24px;
-      margin: 20px;
+      margin: 10px;
       cursor: pointer;
       box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
     }
@@ -41,7 +41,7 @@
       color: #1e88e5;
       text-decoration: none;
     }
-    #statusMessage {
+    #statusMessage, #shakeMessage {
       margin-top: 15px;
       font-size: 1rem;
       color: #388e3c;
@@ -54,11 +54,12 @@
   <h1>🎶 Shake Your Device!</h1>
   <img id="rattleImg" src="matlhowa.jpg" alt="Leg Rattle">
 
-  <!-- Motion Access Button -->
   <button id="enableMotion">🛡️ Enable Motion Access</button>
+  <button id="playTest">🔊 Tap to Unlock Sound</button>
 
   <p>Shake your phone to hear the rattle sound!</p>
   <div id="statusMessage">✅ Motion access granted! Start shaking!</div>
+  <div id="shakeMessage">🎉 Shake detected!</div>
 
   <audio id="rattleSound" src="rattle.mp3"></audio>
 
@@ -67,9 +68,18 @@
   <script>
     let lastShakeTime = 0;
 
+    document.getElementById('playTest').addEventListener('click', function() {
+      // Play the rattle sound once to unlock audio autoplay
+      const sound = document.getElementById('rattleSound');
+      sound.play().then(() => {
+        console.log('Audio unlocked!');
+      }).catch((e) => {
+        console.error('Audio unlock failed:', e);
+      });
+    });
+
     document.getElementById('enableMotion').addEventListener('click', function() {
       if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
-        // iOS 13+ style permission
         DeviceMotionEvent.requestPermission()
           .then(response => {
             if (response === 'granted') {
@@ -82,7 +92,6 @@
           })
           .catch(console.error);
       } else {
-        // Non iOS devices (Android, older iPhones)
         startMotionListener();
         document.getElementById('enableMotion').style.display = 'none';
         document.getElementById('statusMessage').style.display = 'block';
@@ -93,22 +102,34 @@
       window.addEventListener("devicemotion", (event) => {
         const { x, y, z } = event.accelerationIncludingGravity;
         const acceleration = Math.sqrt(x * x + y * y + z * z);
-    
+
         const now = Date.now();
-        if (acceleration > 1 && now - lastShakeTime > 500) {  // Much easier to trigger
+        if (acceleration > 4 && now - lastShakeTime > 500) { // EVEN MORE sensitive
           lastShakeTime = now;
-    
+
           const sound = document.getElementById("rattleSound");
           const image = document.getElementById("rattleImg");
-    
+
           sound.currentTime = 0;
           sound.play().catch(error => {
             console.log('Audio play error:', error);
           });
-    
+
           image.style.transform = "rotate(10deg)";
           setTimeout(() => image.style.transform = "rotate(-10deg)", 100);
           setTimeout(() => image.style.transform = "rotate(0deg)", 200);
+
+          // New: Vibration feedback
+          if (navigator.vibrate) {
+            navigator.vibrate(200);
+          }
+
+          // Show shake detected message
+          const shakeMessage = document.getElementById('shakeMessage');
+          shakeMessage.style.display = 'block';
+          setTimeout(() => {
+            shakeMessage.style.display = 'none';
+          }, 1000);
         }
       });
     }
