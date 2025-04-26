@@ -3,73 +3,100 @@
 <head>
   <meta charset="UTF-8">
   <title>Shake the Rattle!</title>
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Open Sans', sans-serif;
-      background-color: #fff8e1;
-      color: #000;
-      text-align: center;
-      padding: 40px;
+      background-color: #f9f9f6;
+      color: #333;
+      margin: 0;
+      padding: 0;
     }
-    h1 {
-      font-size: 2em;
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      text-align: center;
     }
     img {
-      width: 180px;
-      transition: transform 0.1s ease;
-      margin: 20px 0;
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      margin-bottom: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #2e2e2e;
+    }
+    p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 30px;
     }
     button {
-      font-size: 1.1rem;
-      background-color: #43a047;
-      color: white;
+      font-size: 1rem;
+      background-color: #f9a825;
+      color: #222;
       border: none;
-      border-radius: 10px;
+      border-radius: 8px;
       padding: 12px 24px;
       margin: 10px;
       cursor: pointer;
-      box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+      transition: background-color 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
-    p {
+    button:hover {
+      background-color: #f57f17;
+    }
+    .message {
       font-size: 1rem;
-      color: #555;
+      margin-top: 20px;
+      color: #388e3c;
+      display: none;
     }
     a {
-      display: block;
+      display: inline-block;
       margin-top: 30px;
+      font-size: 1rem;
       color: #1e88e5;
       text-decoration: none;
     }
-    #statusMessage, #shakeMessage {
-      margin-top: 15px;
-      font-size: 1rem;
-      color: #388e3c;
-      display: none;
+    a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
 
-  <h1>🎶 Shake Your Device!</h1>
-  <img id="rattleImg" src="Matlhowa.jpg" alt="Leg Rattle">
+  <div class="container">
+    <img id="rattleImg" src="matlhowa.jpg" alt="Leg Rattle">
 
-  <button id="enableMotion">🛡️ Enable Motion Access</button>
-  <button id="playTest">🔊 Tap to Unlock Sound</button>
+    <h1>Shake the Leg Rattle</h1>
 
-  <p>Shake your phone to hear the rattle sound!</p>
-  <div id="statusMessage">✅ Motion access granted! Start shaking!</div>
-  <div id="shakeMessage">🎉 Shake detected!</div>
+    <p>
+      Tap below to unlock sound and enable motion access. Then gently shake your device to hear the traditional rhythm of the Matlhowa!
+    </p>
 
-  <audio id="rattleSound" src="audio.mp3"></audio>
+    <button id="playTest">🔊 Tap to Unlock Sound</button>
+    <button id="enableMotion">🛡️ Enable Motion Access</button>
 
-  <a href="index.html">⬅️ Back to Menu</a>
+    <div id="statusMessage" class="message">✅ Motion access granted! Start shaking!</div>
+    <div id="shakeMessage" class="message">🎉 Shake detected!</div>
+
+    <audio id="rattleSound" src="rattle.mp3"></audio>
+
+    <a href="index.html">⬅️ Back to Menu</a>
+  </div>
 
   <script>
     let lastShakeTime = 0;
 
     document.getElementById('playTest').addEventListener('click', function() {
-      // Play the rattle sound once to unlock audio autoplay
       const sound = document.getElementById('rattleSound');
       sound.play().then(() => {
         console.log('Audio unlocked!');
@@ -104,7 +131,7 @@
         const acceleration = Math.sqrt(x * x + y * y + z * z);
 
         const now = Date.now();
-        if (acceleration > 14 && now - lastShakeTime > 500) { // EVEN MORE sensitive
+        if (acceleration > 4 && now - lastShakeTime > 500) {
           lastShakeTime = now;
 
           const sound = document.getElementById("rattleSound");
@@ -115,21 +142,24 @@
             console.log('Audio play error:', error);
           });
 
-          image.style.transform = "rotate(10deg)";
-          setTimeout(() => image.style.transform = "rotate(-10deg)", 100);
-          setTimeout(() => image.style.transform = "rotate(0deg)", 200);
+          // Simulated "vibration" visual
+          image.style.transition = "transform 0.1s";
+          image.style.transform = "scale(1.05)";
+          setTimeout(() => {
+            image.style.transform = "scale(1)";
+          }, 200);
 
-          // New: Vibration feedback
-          if (navigator.vibrate) {
-            navigator.vibrate(200);
-          }
-
-          // Show shake detected message
+          // Show shake detected
           const shakeMessage = document.getElementById('shakeMessage');
           shakeMessage.style.display = 'block';
           setTimeout(() => {
             shakeMessage.style.display = 'none';
           }, 1000);
+
+          // Vibrate if possible
+          if (navigator.vibrate) {
+            navigator.vibrate([100, 50, 100]);
+          }
         }
       });
     }
